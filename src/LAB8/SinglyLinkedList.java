@@ -1,92 +1,76 @@
-package LAB7;
+package LAB8;
 import java.util.Scanner;
 
-// Different node class name
-class DNode {
+// Node class
+class Node {
     int data;
-    DNode prev, next;
+    Node next;
 
-    DNode(int data) {
+    Node(int data) {
         this.data = data;
-        this.prev = null;
         this.next = null;
     }
 }
 
-// Different main class
-public class DoublyLinkedList {
+public class SinglyLinkedList {
 
-    static DNode head = null;
+    static Node head = null;
 
     // Insert at beginning
-    static void insertBeginning(int value) {
-        DNode newNode = new DNode(value);
+    static void insertAtBeginning(int value) {
+        Node newNode = new Node(value);
 
-        if (head != null) {
-            head.prev = newNode;
-            newNode.next = head;
-        }
-
+        newNode.next = head;
         head = newNode;
+
         System.out.println("Inserted at beginning: " + value);
     }
 
     // Insert at end
-    static void insertEnd(int value) {
-        DNode newNode = new DNode(value);
+    static void insertAtEnd(int value) {
+        Node newNode = new Node(value);
 
         if (head == null) {
             head = newNode;
         } else {
-            DNode temp = head;
+            Node temp = head;
 
             while (temp.next != null) {
                 temp = temp.next;
             }
 
             temp.next = newNode;
-            newNode.prev = temp;
         }
 
         System.out.println("Inserted at end: " + value);
     }
 
     // Delete element
-    static void deleteNode(int value) {
+    static void delete(int value) {
 
         if (head == null) {
             System.out.println("List is empty");
             return;
         }
 
-        DNode temp = head;
-
-        // If first node
-        if (temp.data == value) {
-            head = temp.next;
-            if (head != null)
-                head.prev = null;
-
+        if (head.data == value) {
+            head = head.next;
             System.out.println("Deleted: " + value);
             return;
         }
 
-        while (temp != null && temp.data != value) {
+        Node temp = head;
+
+        while (temp.next != null && temp.next.data != value) {
             temp = temp.next;
         }
 
-        if (temp == null) {
+        if (temp.next == null) {
             System.out.println("Element not found");
-            return;
+        } else {
+            temp.next = temp.next.next;
+            System.out.println("Deleted: " + value);
         }
-
-        if (temp.next != null)
-            temp.next.prev = temp.prev;
-
-        if (temp.prev != null)
-            temp.prev.next = temp.next;
-
-        System.out.println("Deleted: " + value);
     }
 
     // Display list
@@ -96,11 +80,11 @@ public class DoublyLinkedList {
             return;
         }
 
-        DNode temp = head;
+        Node temp = head;
 
-        System.out.println("Doubly Linked List:");
+        System.out.println("Linked List:");
         while (temp != null) {
-            System.out.print(temp.data + " <-> ");
+            System.out.print(temp.data + " -> ");
             temp = temp.next;
         }
         System.out.println("NULL");
@@ -112,7 +96,7 @@ public class DoublyLinkedList {
         int choice, value;
 
         do {
-            System.out.println("\n--- DOUBLY LINKED LIST ---");
+            System.out.println("\n--- SINGLY LINKED LIST ---");
             System.out.println("1. Insert at Beginning");
             System.out.println("2. Insert at End");
             System.out.println("3. Delete");
@@ -127,19 +111,19 @@ public class DoublyLinkedList {
                 case 1:
                     System.out.print("Enter value: ");
                     value = sc.nextInt();
-                    insertBeginning(value);
+                    insertAtBeginning(value);
                     break;
 
                 case 2:
                     System.out.print("Enter value: ");
                     value = sc.nextInt();
-                    insertEnd(value);
+                    insertAtEnd(value);
                     break;
 
                 case 3:
                     System.out.print("Enter value to delete: ");
                     value = sc.nextInt();
-                    deleteNode(value);
+                    delete(value);
                     break;
 
                 case 4:
